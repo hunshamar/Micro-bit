@@ -19,4 +19,7 @@ void LED_pixel_on(uint8_t x, uint8_t y);
 
 void LED_coordinates_to_ground_supply(int* data, int x, int y);
 
+
+void LED_print_char(char c);
+
 void LED_print(char* string);

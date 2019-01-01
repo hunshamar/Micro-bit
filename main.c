@@ -2,61 +2,54 @@
 #include "gpio.h"
 #include "buttons.h"
 #include "LED.h"
+#include "uart.h"
+
+/*
+ssize_t _read(int fd, void *buf, size_t count){
+	char *str = (char*)(buf);
+	char letter;
+
+	do{
+		letter = uart_read();
+	} while(letter == '\0');
+
+	*str = letter;
+	return 1;
+}
+*/
+
+
 
 
 int main(){
 
-		for(int i = 4; i <= 15; i++){
-		GPIO->DIRSET = (1 << i);
-		GPIO->OUTCLR = (1 << i);
-	}
-
+	
 	
 	LED_init();
-
-
+	uart_init();
+	char a = 'A';
+	int sleep = 10000;
 	while(1){
-		char alph[30];
 		
+		sleep = 10000/5;
 
-		char a = 'A';	
-		while(a <= 'Z'){
-			alph[a-'A'] = a;
-			a++;
-		}
 
-		LED_print(alph);
+		//uart_send('b');
+		//sleep = 10000/3;
+		while(sleep--)
+			LED_print_char(a);
+		a++;
+		uart_send(a);
+		iprintf("funker detta? %c \n\r",a);		
+		//iprintf("test %d \n\r", 5);
+
 
 		
-
-
-
-		/*
-
-		if (buttons_check_a()){
-			
-			GPIO->OUTSET = (1 << 13); 
-			GPIO->OUTSET = (1 << 14);
-			//GPIO->OUTSET = (1 << 15); 
-			GPIO->OUTCLR = (1 << 6);
-			
-			//GPIO->OUTSET = (1 << 4);
-			GPIO->OUTSET = (1 << 5);
-			GPIO->OUTSET = (1 << 7);
-			GPIO->OUTSET = (1 << 8);
-			GPIO->OUTSET = (1 << 9);
-			//GPIO->OUTSET = (1 << 10);
-			GPIO->OUTSET = (1 << 11);
-			GPIO->OUTSET = (1 << 12);
+		if (a > 'Z'){
+			a = 'A';
 		}
-		if (buttons_check_b()){
-			GPIO->OUTCLR = (1 << 13); 
-			GPIO->OUTCLR = (1 << 14); 
-			//GPIO->OUTCLR = (1 << 15); 
-			
-			GPIO->OUTSET = (1 << 6);
-		}
-		*/
+		
+		
 		/* Check if button B is pressed;
 		 * turn on LED matrix if it is. */
 

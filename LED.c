@@ -1,15 +1,23 @@
 #include "LED.h"
 
 
-void LED_init(void){
+void LED_init(void)
+{
+    for(int i = 4; i <= 15; i++)
+    {
+        GPIO->DIRSET = (1 << i);
+	}
     LED_clear();
 }
 
-void LED_clear(void){
-    for (int i = 4; i <= 12; i++){
+void LED_clear(void)
+{
+    for (int i = 4; i <= 12; i++)
+    {
         GPIO->OUTSET = (1 << i);
     }
-    for (int i = 13; i <= 15; i++){
+    for (int i = 13; i <= 15; i++)
+    {
         GPIO->OUTCLR = (1 << i);
     }
 }
@@ -29,22 +37,27 @@ void LED_pixel_on(uint8_t x, uint8_t y)
     LED_clear();
 }
 
-void LED_print_char(char c){
+void LED_print_char(char c)
+{
     int a = c - ' ';
-
-    for (int i = 0; i < 5; i++){
+    for (int i = 0; i < 5; i++)
+    {
         char line = font[a][i];
-        for (int j = 0; j < 5; j++){
-            if ((line << j) & (0b10000)){
+        for (int j = 0; j < 5; j++)
+        {
+            if ((line << j) & (0b10000))
+            {
                 LED_pixel_on(i,j);
             }
         }
     }
 }
 
-void LED_print(char* string){
+void LED_print(char* string)
+{
     int wait = 10000/4;
-    while (*string){
+    while (*string)
+    {
         while(--wait)
         {
         LED_print_char(*string);
