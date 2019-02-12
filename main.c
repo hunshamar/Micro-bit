@@ -3,6 +3,7 @@
 #include "buttons.h"
 #include "LED.h"
 #include "uart.h"
+#include "test.h"
 
 /*
 ssize_t _read(int fd, void *buf, size_t count){
@@ -20,17 +21,20 @@ ssize_t _read(int fd, void *buf, size_t count){
 
 
 
-
 int main(){
 
 	
 	
 	LED_init();
 	uart_init();
-	char a = 'A';
-	int sleep = 10000;
+
+	test_keyboard_to_LED();
+
+
 	while(1){
 		
+		
+		/*
 		sleep = 10000/5;
 
 
@@ -44,11 +48,12 @@ int main(){
 		//iprintf("test %d \n\r", 5);
 
 
+
 		
 		if (a > 'Z'){
 			a = 'A';
 		}
-		
+		*/
 		
 		/* Check if button B is pressed;
 		 * turn on LED matrix if it is. */

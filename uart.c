@@ -1,4 +1,5 @@
 #include "uart.h"
+#include <stdlib.h>
 
 void uart_init(){
     /*  Pin 24 is TXD  Pin 25 is RXD  */ 
@@ -43,7 +44,7 @@ char uart_read(){
         UART->STARTTX = 1; //UART reception squance is started
 
         char RXD_cont = UART->RXD;
-        UART->STOPRX = 1; 
+        //UART->STOPRX = 1; 
         return RXD_cont;
     }
     else{
