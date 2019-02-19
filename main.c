@@ -23,49 +23,55 @@ ssize_t _read(int fd, void *buf, size_t count){
 
 int main(){
 
-	
-	
+	//test_gpiote_ppi();
+
+	/*
+
+	SDA koblet til pin nr. 16, p0.30
+	SCL koblet til port nr. 17, p0.00
+
+	*/
+
+
 	LED_init();
 	uart_init();
-
 	test_keyboard_to_LED();
-
-
 	while(1){
+
+	}
+
+
+	
+
+	return 0;
+
+
+
+
+
+
+
+
+
+
+
+
+	/*
+
+	buttons_init();
+
+	
+	test_LED_init();
+
+	int sleep = 0;
+	while(1){
+
 		
-		
-		/*
-		sleep = 10000/5;
-
-
-		//uart_send('b');
-		//sleep = 10000/3;
-		while(sleep--)
-			LED_print_char(a);
-		a++;
-		uart_send(a);
-		iprintf("funker detta? %c \n\r",a);		
-		//iprintf("test %d \n\r", 5);
-
-
-
-		
-		if (a > 'Z'){
-			a = 'A';
-		}
-		*/
-		
-		/* Check if button B is pressed;
-		 * turn on LED matrix if it is. */
-
-		/* Check if button A is pressed;
-		 * turn off LED matrix if it is. */
-
-		/*
+		test_LED();
 		sleep = 10000;
 		while(--sleep);
-		*/
-		
 	}
 	return 0;
+
+	*/
 }
