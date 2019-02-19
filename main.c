@@ -4,6 +4,9 @@
 #include "LED.h"
 #include "uart.h"
 #include "test.h"
+#include "twi.h"
+#include "utility.h"
+#include <stdlib.h>
 
 /*
 ssize_t _read(int fd, void *buf, size_t count){
@@ -23,6 +26,8 @@ ssize_t _read(int fd, void *buf, size_t count){
 
 int main(){
 
+	uart_init();
+
 	//test_gpiote_ppi();
 
 	/*
@@ -33,6 +38,9 @@ int main(){
 	*/
 
 
+
+/*
+
 	LED_init();
 	uart_init();
 	test_keyboard_to_LED();
@@ -40,7 +48,7 @@ int main(){
 
 	}
 
-
+*/
 	
 
 	return 0;

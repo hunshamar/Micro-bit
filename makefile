@@ -1,5 +1,5 @@
 FAMILY := nrf51
-SOURCES := main.c buttons.c LED.c uart.c test.c
+SOURCES := main.c buttons.c LED.c uart.c test.c utility.c ubit_led_matrix.c twi.c
 
 BUILD_DIR := .build_system
 LINKER_SCRIPT := $(BUILD_DIR)/linker_script.ld
