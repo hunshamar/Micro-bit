@@ -39,7 +39,7 @@ int main(){
 
 
 
-/*
+
 
 	LED_init();
 	uart_init();
@@ -48,7 +48,7 @@ int main(){
 
 	}
 
-*/
+
 	
 
 	return 0;
