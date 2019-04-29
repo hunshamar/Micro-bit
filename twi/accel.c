@@ -2,10 +2,10 @@
 #include "accel.h"
 #include "twi.h"
 
-#define ACCEL_ADDR          __FILL_THIS_OUT_
-#define ACCEL_DATA_REG      __FILL_THIS_OUT_
-#define ACCEL_CTRL_REG_1    __FILL_THIS_OUT_
-#define ACCEL_CTRL_REG_4    __FILL_THIS_OUT_
+#define ACCEL_ADDR          0b0011001
+#define ACCEL_DATA_REG      0b10101000
+#define ACCEL_CTRL_REG_1    0x20
+#define ACCEL_CTRL_REG_4    0x23
 
 #define ACCEL_100_HZ_HR_ON  0x57
 #define ACCEL_HR_SELECT     0x08
@@ -39,6 +39,7 @@ void accel_read_x_y_z(int * p_data_buffer){
     if(x_accel & (1 << 11)){
         x_accel |= 0xf000;
     }
+    twi_multi_read(ACCEL_ADDR, ACCEL_DATA_REG, 6, raw_data);
 
     y_accel = ((raw_data[3] << 8) | raw_data[2]) >> 4;
     if(y_accel & (1 << 11)){

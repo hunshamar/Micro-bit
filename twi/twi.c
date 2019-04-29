@@ -50,26 +50,37 @@ typedef struct {
 void twi_init(){
 
     /* Your task: */
+		GPIO->PIN_CNF[30] = 0 | (6 << 8);
+		GPIO->PIN_CNF[0] = 0 | (6 << 8);
 
     /* 1) To use TWI, you must configure the SDA- and SCL lines in */
     /*    the GPIO module. Read the TWI section in the nRF51822 */
     /*    datasheet to determine which direction the pins should */
     /*    have, as well as what drive strength you should apply. */
+	TWI0->PSELSCL = 0;
+	TWI0->PSELSDA = 30;
 
     /* 2) Use pin 0 on the micro:bit as SCL; 30 as SDA. */
-
+	TWI0->FREQUENCY = 0x01980000;
+	TWI0->ENABLE = 5;
     /* 3) Use normal I2C speed, i.e. 100 kHz operation. */
 
 }
 
 void twi_multi_read(
-		uint8_t slave_address,
+			uint8_t slave_address,
 		uint8_t start_register,
 		int registers_to_read,
 		uint8_t * data_buffer
 		){
 
     /* Your task: */
+
+	TWI0->ADDRESS = slave_address;
+	TWI0->STARTTX = 1;
+	TWI0->TXDSENT = 0;
+	TWI0->TXD = start_register;
+	while(!TWI0->TXDSENT);	
 
     /* 1) Write the register address you want to the slave */
     /*    device. Busy-wait until the register address has */
@@ -82,11 +93,26 @@ void twi_multi_read(
     /* nRF51822 and the LSM303AGR. The reason we use inline assembly */
     /* is to always force the compiler to keep these instructions, */
     /* regardless of optimization level. */
-    for(int i = 0; i < 10; i++){
+	int i;
+    for(i = 0; i < 10; i++){
         __asm("nop");
     }
 
     /* Your task: */
+
+	TWI0->RXDREADY = 0;
+	TWI0->STARTRX = 1;
+	
+    for(i = 0; i < registers_to_read - 1; i++){
+		while(!TWI0->RXDREADY);
+		TWI0->RXDREADY = 0;
+		data_buffer[i]=TWI0->RXD;
+		
+		}
+	TWI0->STOP = 1;
+	while(!TWI0->RXDREADY);	
+	data_buffer[registers_to_read-1]=TWI0->RXD;
+
 
     /* 1) Read back the register that you asked the slave to */
     /*    supply. This amounts to generating a repeated start */
@@ -98,13 +124,12 @@ void twi_multi_read(
     /*    out how to do this. */
 
 }
-
 void twi_multi_write(
-		uint8_t slave_address,
-		uint8_t start_register,
-		int registers_to_write,
-		uint8_t * data_buffer
-		){
+	uint8_t slave_address,
+	uint8_t start_register,
+	int registers_to_write,
+	uint8_t * data_buffer
+	){
 	TWI0->ADDRESS = slave_address;
 	TWI0->STARTTX = 1;
 
@@ -112,7 +137,8 @@ void twi_multi_write(
 	TWI0->TXD = start_register;
 	while(!TWI0->TXDSENT);
 
-	for(int i = 0; i < registers_to_write; i++){
+	int i;
+    for(i = 0; i < registers_to_write; i++){
 		TWI0->TXDSENT = 0;
 		TWI0->TXD = data_buffer[i];
 		while(!TWI0->TXDSENT);
